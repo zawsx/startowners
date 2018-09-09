@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="initial-scale=1.0, user-scalable=no"><meta charset="utf-8"><title>45° Imagery</title>
+    <style> /* Always set the map height explicitly to define the size of the div element that contains the map. */
+      #DivIDszMap {height: 100%;}
+      /* Optional: Makes the sample page fill the window. */
+      html, body {height: 100%; margin: 0;  padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";}
+	  h2,  h3 {margin-bottom: 10px; font-size: 3em;color:white; } h3 {font-size: 1em;}
+#legend {font-family: Arial, sans-serif; background: #fff; padding: 10px; margin: 10px; border: 3px solid #000; }      #legend h3 {margin-top: 0;}      #legend img { vertical-align: middle; }
+	  </style>
+  </head><body> <div id="DivIDszMap"></div><div id="legend"><h3>Legend</h3></div><script>
+var szMap,szOptions; var szsrc='https://raw.githubusercontent.com/CodeLeftLab/redir/gh-pages/rdetails/maps/data/szRemoteData3.kml', szIconBase='images/';
+var szStCentre={lat:51.58026985199993, lng:-0.08974671363830566}, sz2021Lat=51.580993225257444-0.0002, sz2021Lng=-0.09090006351470947+0.0001,sz2023Lng=-0.09040653705596924+0.0003,sz2023Lat=51.58000316770964;
+var szAvailNowLat=51.579726481104345, szAvailNowLng=-0.09239673614501953+0.0003,szHospRemainsLng=-0.08894741535186768+0.00065,szHospRemainsLat=51.580259851367295-0.0003;
+
+          
+var szNELat=51.581596583083915,szNELng=-0.08599162101745604,szSWLat=51.57842303118309,szSWLng=-0.09384512901306152,szInitZoom=19;   
+var icons = {Avail2021:{name: 'Avail2021', icon: szIconBase + 'map legend icon 2021.png'  },Avail2023:{name: 'Avail2023', icon: szIconBase + 'map legend icon 2023.png'  },
+AvailNow:{name: 'AvailNow', icon: szIconBase + 'map legend icon availnow.png'  },HospRemains:{name: 'HospRemains', icon: szIconBase + 'map legend icon NHS hospital.png'  }
+};
+          
+
+function szInitMap() {szOptions = {center: szStCentre,  mapTypeId: 'satellite', zoom: 18, 
+panControl:   true, mapTypeControl:     true, panControlOptions: {position: google.maps.ControlPosition.RIGHT_CENTER },
+zoomControl:  true, zoomControlOptions: {style: google.maps.ZoomControlStyle.LARGE, position: google.maps.ControlPosition.RIGHT_CENTER},
+scaleControl: true, streetViewControl:  true, streetViewControlOptions: {position: google.maps.ControlPosition.RIGHT_CENTER }  };
+  
+//var szSWbounds = new google.maps.LatLng(szSWLat ,szSWLng),szNEbounds = new google.maps.LatLng(szNELat, szNELng);
+//var szBounds = new google.maps.LatLngBounds();szBounds.extend(szSWbounds);szBounds.extend(szNEbounds); 
+
+var szMap=new google.maps.Map(document.getElementById('DivIDszMap'), szOptions);
+var szkmlLayer = new google.maps.KmlLayer(szsrc, {suppressInfoWindows: true, preserveViewport: true, map: szMap}); 
+szMap.setTilt(45);   
+var features = [ {position: new google.maps.LatLng(sz2021Lat, sz2021Lng), type: 'Avail2021' },{position: new google.maps.LatLng(sz2023Lat, sz2023Lng), type: 'Avail2023' },
+{position: new google.maps.LatLng(szAvailNowLat, szAvailNowLng), type: 'AvailNow' },{position: new google.maps.LatLng(szHospRemainsLat, szHospRemainsLng), type: 'HospRemains' }
+];
+features.forEach(function(feature) { var marker = new google.maps.Marker({position: feature.position, icon: icons[feature.type].icon, map: szMap });  });
+/*var legend = document.getElementById('legend');  
+for (var key in icons) {var type = icons[key]; var name = type.name; var icon = type.icon; var div = document.createElement('div');div.innerHTML = '<img src="' + icon + '"> ' + name; legend.appendChild(div);}
+szMap.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);*/
+//google.maps.event.addListenerOnce(szMap, 'idle', function() {szMap.fitBounds(szBounds,0);// // szMap.setTilt(45);
+//}); 
+}
+
+		</script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDco3TWo3gN-xDT85zQXu_ZPyBDdv_zt1c&callback=szInitMap"></script>  </body></html>
